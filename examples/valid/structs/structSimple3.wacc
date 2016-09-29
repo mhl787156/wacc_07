@@ -1,0 +1,10 @@
+struct str{
+  int x
+};
+
+begin
+
+  newstruct str h;
+  h.x = 3
+
+end

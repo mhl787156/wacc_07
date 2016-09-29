@@ -1,0 +1,14 @@
+Haskell and Alex/Happy based Compiler for the WACC Programming Language.
+
+Mickey Li
+Callum Mance
+John Oliver
+Jonathan Sutton
+
+
+Currently one can call the compiler as a whole with ./compile [filename]
+
+One can call the parser (tony) directly at ./bin/tony [filename]. Not providing
+a file name will take a program written into stdin.
+
+

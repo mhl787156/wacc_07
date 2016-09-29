@@ -1,0 +1,14 @@
+struct str{
+  int t;
+  string r
+};
+
+begin
+
+  newstruct str h;
+  h.r = "my_string";
+  h.t = 3;
+  print h.r;
+  print h.t
+
+end

@@ -1,0 +1,85 @@
+##########################################
+####### REQUIRES STRING_UTIL.WACC ########
+##########################################
+
+
+#make an empty dictionary
+pair(int,pair) emptyDict() is
+  return newpair(0,null) #stores length and first element
+end
+
+#get the length of a given dictionary
+int getLength(pair(pair,pair) dict) is
+  return fst(dict)
+end
+
+#checks if a given key is in a given dictionary
+bool contains(string key, pair(pair,pair) dict) is
+  pair(int,pair) current = snd(dict);
+  while current != null do
+    if strcmp(fst(fst(current)),elem) == 0 then
+      return true
+    else
+      current = snd(current)
+    end
+  end
+  return false
+end
+
+#insert a key/value pair into the given dictionary
+#if key already in dictionary, replace value
+void insert(pair(string,int) insertElem, pair(int,pair) dict) is
+  string key = fst(insertElem);
+  pair(int,pair) current = null;
+  pair(int,pair) next = snd(dict);
+  if next == null then
+    return
+  else
+    while strcmp(fst(fst(next)),key) < 0 do
+      current = next;
+      next = snd(current)
+    end
+    if strcmp(fst(fst(next)),key) == 0 then
+      fst(next) = insertElem;
+    else
+      pair(pair,pair) newElem = newpair(insertElem,next);
+      snd(current) = newElem;
+      fst(dict) = getLength(dict) + 1
+  end
+end
+
+#removes the element at given key from a dictionary
+#returns the value (0 if key not in dictionary)
+int remove(string key, pair(int,pair) dict) is
+  pair(int,pair) previous = null;
+  pair(int,pair) current = snd(dict);
+  pair(int,pair) next = snd(current);
+  while (strcmp(fst(fst(current)),key) < 0) && (next != null) do
+    previous = current;
+    current = next; 
+    next = snd(next);
+  end
+  if strcmp(fst(fst(current)),key) == 0 then
+    snd(previous) = next;
+    fst(dict) = getLength(dict) - 1;
+    return snd(fst(current))
+  else
+    return 0
+  end
+end
+
+#get a value from a dict at a given key
+#returns zero if key not in dictionary
+int getAt(string key, pair(int,pair) dict) is
+  pair(int,pair) current = snd(dict);
+  pair(int,pair) next = snd(current);
+  while (strcmp(fst(fst(current)),key) < 0) && (next != null) do
+    current = next; 
+    next = snd(next);
+  end
+  if strcmp(fst(fst(current)),key) == 0 then
+    return snd(fst(current))
+  else
+    return 0
+  end
+end

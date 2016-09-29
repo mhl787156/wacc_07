@@ -1,0 +1,326 @@
+#make an empty linked list 
+pair(int,pair) emptyList() is
+  pair(int,pair) p = newpair(0,null); #stores length and first element
+  return p
+end
+
+#get the length of a given list
+int getLength(pair(int,pair) list) is
+  int n = fst list;
+  return n
+end
+
+#checks if a given element is in a given list
+bool listContains(int elem, pair(int,pair) list) is
+  pair(int,pair) current = snd list;
+  int first = fst current;
+  while (current != null) do
+    first = fst current;
+    if (first == elem) then
+      return true
+    else
+      current = snd current
+    fi
+  done;
+  return false
+end
+
+#insert an element into the given list
+pair(int,pair) insert(int insertElem, pair(int,pair) list) is
+  pair(int, pair) newElem = newpair(insertElem,null);
+  pair(int,pair) current = null;
+  pair(int,pair) next = snd list;
+  while next != null do
+    current = next;
+    next = snd current
+  done;
+  snd current = newElem;
+  int length = call getLength(list);
+  fst list = length + 1;
+  return list
+end
+
+#removes the element at given index from a list
+#returns the element (0 if index out of bounds)
+int remove(int index, pair(int,pair) list) is
+  int length = call getLength(list);
+  if index >= length then
+    exit 300
+  else
+    int count = 0;
+    pair(int,pair) previous = null;
+    pair(int,pair) current = snd list;
+    pair(int,pair) next = snd current;
+    while count < index do
+      previous = current;
+      current = next; 
+      next = snd next;
+      count = count + 1
+    done;
+    snd previous = next;
+    length = call getLength(list);
+    fst list = length - 1;
+    int result = fst current;
+    return result
+  fi
+end
+
+#get an element from a list at a given index
+#returns zero if index out of bounds
+int getAt(int index, pair(int,pair) list) is
+  int length = call getLength(list);
+  if index >= length then
+    exit 300
+  else
+    int count = 0;
+    pair(int,pair) current = snd list;
+    while count < index do
+      current = snd current;
+      count = count + 1
+    done;
+    int result = fst current;
+    return result
+  fi
+end
+
+#heapsort a given array
+int[] sort(int[] array) is
+  int length = len array;
+  array = call heapify(array, length);
+  int last = length - 1;
+  while last > 0 do
+    array = call swap(array, 0, last);
+    last = last - 1;
+    array = call heapify(array, last) #re-heapify the messed up heap
+  done;
+  return array
+end
+
+#find the address of a parent of a given child in a heap
+int iParent(int i) is
+  return (i-1)/2
+end
+
+#turn given array into a heap
+int[] heapify(int[] array, int length) is
+  int last = 1;
+  while last < length do
+    array = call siftUp(array, 0, last);
+    last = last + 1
+  done;
+  return array
+end
+
+#in the semiheap, sift array[last] up to start
+int[] siftUp(int[] array, int start, int last) is
+  int child = last;
+  int parent = 0;
+  while child > start do
+    parent = call iParent(child);
+    if array[parent] < array[child] then
+      array = call swap(array, parent, child);
+      child = parent
+    else
+      return array
+    fi
+  done;
+  return array
+end
+
+#swaps elements at first and second in the given array
+int[] swap(int[] array, int first, int second) is
+  int temp = array[first];
+  array[first] = array[second];
+  array[second] = temp;
+  return array
+end
+
+#returns true if a given element is in given array, false otherwise
+bool arrayContains(int[] array, int search) is
+  int length = len array;
+  int count = 0;
+  while count < length do
+    if array[count] == search then
+      return true
+    else
+      count = count + 1
+    fi
+  done;
+  return false
+end
+
+#return the first index of given element in given array, -1 if not found
+int arrayFind(int[] array, int search) is
+  int length = len array;
+  int count = 0;
+  while count < length do
+    if array[count] == search then
+      return count
+    else
+      count = count + 1
+    fi
+  done;
+  return -1
+end
+
+#return 1 if array1 > array2, -1 if array1 < array2, 0 if array1 == array2
+#component-wise
+int arraycmp(int[] array1, int[] array2) is
+  int length = call min(len array1, len array2);
+  int count = 0;
+  int elem1 = 0; int elem2 = 0;
+  while count < length do
+    elem1 = array1[count];
+    elem2 = array2[count];
+    if elem1 > elem2 then
+      return 1
+    else
+      if elem1 < elem2 then
+        return -1
+      else
+        count = count + 1
+      fi
+    fi
+  done;
+  int result = call cmp(len array1, len array2);
+  return result
+end
+
+#finds the minimum of two numbers
+int min(int first, int second) is
+  if first < second then
+    return first
+  else
+    return second
+  fi
+end
+
+#finds the maximum of two numbers
+int max(int first, int second) is
+  if first > second then
+    return first
+  else
+    return second
+  fi
+end
+
+#returns 1 if first > second, -1 is first < second or
+#0 if first == second
+int cmp(int first, int second) is
+  if first > second then
+    return 1
+  else
+    if first < second then
+      return -1
+    else
+      return 0
+    fi
+  fi
+end
+
+#returns 1 if str1 > str2, -1 if str1 < str2, 0 if str1 == str2
+#component-wise
+int strcmp(string str1, string str2) is
+  int length = call min(len str1, len str2);
+  int count = 0;
+  int elem1 = 0; int elem2 = 0;
+  while count < length do
+    elem1 = ord str1[count];
+    elem2 = ord str2[count];
+    if elem1 > elem2 then
+      return 1
+    else
+      if elem1 < elem2 then
+        return -1
+      else
+        count = count + 1
+      fi
+    fi
+  done;
+  int result = call cmp(len str1, len str2);
+  return result
+end
+
+#make an empty dictionary
+pair(int,pair) emptyDict() is
+  pair(int,pair) result = newpair(0,null); #stores length and first element
+  return result
+end
+
+##get the length of a given dictionary
+#int getLength(pair(pair,pair) dict) is
+#  return fst dict
+#end
+#
+##checks if a given key is in a given dictionary
+#bool contains(string key, pair(pair,pair) dict) is
+#  pair(int,pair) current = snd dict;
+#  while current != null do
+#    if strcmp(fst fst current,elem) == 0 then
+#      return true
+#    else
+#      current = snd current
+#    fi
+#  done
+#  return false
+#end
+#
+##insert a key/value pair into the given dictionary
+##if key already in dictionary, replace value
+#pair(int,pair) insert(pair(string,int) insertElem, pair(int,pair) dict) is
+#  string key = fst insertElem;
+#  pair(int,pair) current = null;
+#  pair(int,pair) next = snd dict;
+#  if next == null then
+#    return
+#  else
+#    while strcmp(fst fst next,key) < 0 do
+#      current = next;
+#      next = snd current
+#    done
+#    if strcmp(fst fst next,key) == 0 then
+#      fst next = insertElem;
+#    else
+#      pair(pair,pair) newElem = newpair(insertElem,next);
+#      snd current = newElem;
+#      fst dict = getLength(dict) + 1
+#    fi
+#  fi
+#  return dict
+#end
+#
+##removes the element at given key from a dictionary
+##returns the value (0 if key not in dictionary)
+#int remove(string key, pair(int,pair) dict) is
+#  pair(int,pair) previous = null;
+#  pair(int,pair) current = snd dict;
+#  pair(int,pair) next = snd current;
+#  while (strcmp(fst fst current,key) < 0) && (next != null) do
+#    previous = current;
+#    current = next; 
+#    next = snd next;
+#  done
+#  if strcmp(fst fst current,key) == 0 then
+#    snd previous = next;
+#    fst dict = getLength(dict) - 1;
+#    return snd fst current
+#  else
+#    return 0
+#  fi
+#end
+#
+##get a value from a dict at a given key
+##returns zero if key not in dictionary
+#int getAt(string key, pair(int,pair) dict) is
+#  pair(int,pair) current = snd dict;
+#  pair(int,pair) next = snd current;
+#  while (strcmp(fst fst current,key) < 0) && (next != null) do
+#    current = next; 
+#    next = snd next;
+#  done
+#  if strcmp(fst fst current,key) == 0 then
+#    return snd fst current
+#  else
+#    return 0
+#  fi
+#end

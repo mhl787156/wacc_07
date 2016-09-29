@@ -1,0 +1,9 @@
+struct str1 {
+  int x
+};
+
+struct str2 {
+  newstruct str1 s
+};
+
+begin skip end

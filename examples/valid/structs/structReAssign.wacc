@@ -1,0 +1,12 @@
+struct str{
+  int t;
+  int q;
+  char c
+};
+
+begin
+  newstruct str x;
+  newstruct str y;
+
+  x = y
+end

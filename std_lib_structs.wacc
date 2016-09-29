@@ -1,0 +1,9 @@
+struct ListElem{
+  int item;
+  ListElem next
+};
+
+struct List{
+  int length;
+  ListElem first
+};

@@ -1,0 +1,4 @@
+begin
+  @IMPORT ./std_lib.wacc
+  pair(int,pair) list = call emptyList()
+end

@@ -1,0 +1,122 @@
+--Program Type
+data AsmProgram = AsmProgram [Instruction]
+
+--Base instruction type
+MOV  UpdateAPSR Condition Register Operand2      
+MVN  UpdateAPSR Condition Register Operand2      
+LDM  Condition AddressMode Register Registers    
+STM  Condition AddressMode Register Registers    
+PUSH Condition Registers                         
+POP  Condition Registers                         
+LDR  MemType Condition Register OffsetReg
+STR  MemType Condition Register OffsetReg
+MVA  UpdateAPSR Condition Register Registers
+MVP  UpdateAPSR Condition Register Register Register
+
+Arithemetic operations
+ADD  UpdateAPSR Condition Register Register Operand2 --Add Rn to Op2, place result into Rd
+MUL  UpdateAPSR Condition Register Register Operand2 --multiply Rn by Op2, place 32 least significant bits into Rd
+SDIV UpdateAPSR Condition Register Register Operand2 --divide Rn by Op2, place result into Rd (signed integer division)
+ADDW UpdateAPSR Condition Register Register Int --Same as ADD, but using an immediate 12-bit value instead of Op2
+SUB  UpdateAPSR Condition Register Register Operand2 --Subtract Op2 from Rn, place result into Rd
+RSB  UpdateAPSR Condition Register Register Operand2 --Subtract Rn from Op2, place result into Rd
+SUBW UpdateAPSR Condition Register Register Int --Same as SUB, but using an immediate 12-bit value instead of Op2
+
+Logical operations
+AND  UpdateAPSR Condition Register Register Operand2 --Bitwise logical AND between Rn and Op2, places the result in Rd
+ORR  UpdateAPSR Condition Register Register Operand2 --Bitwise logical OR (bit set) between Rn and Op2, places the result in Rd
+EOR  UpdateAPSR Condition Register Register Operand2 --Bitwise logical EXCLUSIVE OR between Rn and Op2, places the result in Rd
+BIC  UpdateAPSR Condition Register Register Operand2 --Bitwise logical AND NOT (bit clear) between Rn and Op2, places the result in Rd
+ORN  UpdateAPSR Condition Register Register Operand2 --Bitwise logical OR NOT between Rn and Op2, places the result in Rd
+
+Data Processing instructions
+CMP Condition Register Operand2 --Compares by doing Rn - Op2 and sets z flag if register values are equal
+CMN Condition Register Operand2 --Compare negative by doing Rn + Op2 and sets z flag if register values are equal
+TST Condition Register Operand2 --Test bitwise by Rn && Op2 and sets z flag if register values are equal
+TEQ Condition Register Operand2 --Test bitwise equality by Rn EOR Op2 and sets z flag if register values are equal
+
+Branch instructions
+B    Condition String --Branch to position 
+BL   Condition String --Branch to position Op2 after storing current program counter in link register
+
+Insert Label
+LABEL String --Inserts a label at the current position
+
+Temporary Instructions
+PrintString
+PrintChar
+PrintInt
+PrintBool
+PrintPointer
+
+PrintLn
+
+--Flag to update the APSR on a particular instruction
+data UpdateAPSR = Yes | No
+
+--Conditional Execution
+EQu --If equal
+NEq --If not equal
+
+CS --If carry bit is set
+CC --If carry bit is not set
+
+MI --If negative
+PL --If positive
+
+VS --If overflowed
+VC --If no overflow
+
+HI --Unsigned higher
+LS --Unsigned lower
+
+GE --Signed greater than or equal
+LE --Signed less than of equal
+GThan --Signed strictly greater than
+LThan --Signed strictly less than
+
+AL --Always execute
+
+--Registers, both intermediate and final
+TempGpReg Int
+FinalGpReg Int
+FuncArgReg Int
+StackPointer
+ReturnPointer
+ProgramCounter
+
+
+data Registers = Registers [Register]
+
+--Representation of addressing types for load and store
+IA   --Increment after
+IB   --Increment before
+DA   --Decrement after
+DB   --Decrement before
+
+--Representation of the second operand
+ImmInt Int
+ImmChar Char
+LabAdd String
+ShiftedRegister Register Shift
+
+-- Representation of access to an offset of a register
+OffsetReg Register  Offset
+
+IntOffset Int
+RegOffset Register Shift
+
+-- Representation of Load or Store Type
+UB  -- unsigned byte
+SB -- signed byte
+UH  -- unsigned halfword
+SH -- signed halfword
+W  -- a Word (should be default)
+
+--Representation of a barrel shift
+ASR Int --Arithmetic shift right
+LSL Int --Logical shift left
+LSR Int --Logical shift right
+ROR Int --Rotate right
+RRX         --Rotate right 1 bit
+NOS         --No shift, equivalent to "LSL #0"

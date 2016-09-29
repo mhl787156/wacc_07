@@ -1,0 +1,16 @@
+struct str{
+  int t;
+  int q;
+  char c
+};
+
+begin
+  newstruct str x;
+  newstruct str y;
+  
+  x = y;
+
+  x.t = 4;
+
+  print y.t == 4
+end

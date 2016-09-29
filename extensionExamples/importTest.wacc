@@ -1,0 +1,4 @@
+begin
+    @IMPORT ./imported.wacc
+    print "Printed from main file"
+end

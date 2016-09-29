@@ -1,0 +1,10 @@
+struct str{
+  int t
+};
+
+begin
+
+  newstruct str h;
+  int s = h.t
+
+end

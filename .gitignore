@@ -1,0 +1,71 @@
+#This the the canonical lab .gitignore file 
+
+#ignore temp files 
+*~
+
+#ignore pdf files (just keep source files) 
+*.pdf
+
+#ignore junk files from latex output 
+*.out
+*.log
+*.aux
+*.dvi
+*.ps 
+
+#ignore junk files from compiling C code
+*.o
+
+#ignore junk files from compiling Haskell code 
+*.hi
+
+#ignore junk files from compiling Java code 
+*.class
+
+#ignore junk files from running the WACC compiler
+*.s
+*.ast
+
+#ignore the WACC tempory test_files copy
+testing/test_files/
+
+#ignore other junk files
+*.backup
+*.kate-swp
+*.swp
+*.snm
+*.vrb
+*.nav
+*.toc
+
+#ignore generated parser and lexer
+Parser.hs
+Lexer.hs
+
+#Ignore tests history
+tony/.HTF/*
+tony/Tests
+tony/Tests.o
+*.hi
+
+#Ignore examples and test file
+results_examples
+test.wacc
+results_valid
+results_invalid
+
+#ignore IntellijIDEA files
+.idea/*
+.idea
+*.iml
+
+#ignore generated binaries
+bin
+
+#ignore haskell intermediate files
+tony/intermediateFiles
+
+#others
+.fuse*
+.idea/*
+*.iml

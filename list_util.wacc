@@ -1,0 +1,73 @@
+#make an empty linked list
+pair(int,pair) emptyList() is
+  return newpair(0,null) #stores length and first element
+end
+
+#get the length of a given list
+int getLength(pair(int,pair) list) is
+  return fst(list)
+end
+
+#checks if a given element is in a given list
+bool contains(int elem, pair(int,pair) list) is
+  pair(int,pair) current = snd(list);
+  while current != null do
+    if fst(current) == elem then
+      return true
+    else
+      current = snd(current)
+    end
+  end
+  return false
+end
+
+#insert an element into the given list
+void insert(int insertElem, pair(int,pair) list) is
+  pair(int, pair) newElem = newpair(insertElem,null);
+  pair(int,pair) current = null;
+  pair(int,pair) next = snd(list);
+  while next != null do
+    current = next;
+    next = snd(current)
+  end
+  snd(current) = newElem;
+  fst(list) = getLength(list) + 1
+end
+
+#removes the element at given index from a list
+#returns the element (0 if index out of bounds)
+int remove(int index, pair(int,pair) list) is
+  if index >= getLength(list) then
+    return 0
+  else
+    int count = 0;
+    pair(int,pair) previous = null;
+    pair(int,pair) current = snd(list);
+    pair(int,pair) next = snd(current);
+    while count < index do
+      previous = current;
+      current = next; 
+      next = snd(next);
+      count = count + 1
+    end
+    snd(previous) = next;
+    fst(list) = getLength(list) - 1;
+    return fst(current)
+  end
+end
+
+#get an element from a list at a given index
+#returns zero if index out of bounds
+int getAt(int index, pair(int,pair) list) is
+  if index >= getLength(list) then
+    return 0
+  else
+    int count = 0;
+    pair(int,pair) current = snd(list);
+    while count < index do
+      current = snd(current);
+      count = count + 1
+    end
+    return fst(current)
+  end
+end
